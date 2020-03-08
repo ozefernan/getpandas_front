@@ -411,7 +411,7 @@ export const Styles = styled.div`
 
       input {
         height: 50px;
-        margin-bottom: 20px;
+        margin-top: 20px;
         padding: 22px 20px;
         color: #000;
         background-color: #ffffff;
@@ -431,6 +431,14 @@ export const Styles = styled.div`
         background-color: #f9f9f9;
         box-shadow: none;
         transition: 3s;
+      }
+
+      span {
+        color: #FF0000;
+        padding-top: 5px;
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 12px;
       }
     }
 
