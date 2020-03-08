@@ -1,8 +1,19 @@
 import React from 'react';
-// import { Container } from './styles';
+import { Breadcrumb } from 'react-bootstrap';
+import { Styles } from './styles';
 
 function Main() {
-  return <h1>Main</h1>;
+  return (
+    <Styles>
+      <Breadcrumb>
+        <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
+        <Breadcrumb.Item href="https://getbootstrap.com/docs/4.0/components/breadcrumb/">
+          asd
+        </Breadcrumb.Item>
+        <Breadcrumb.Item active>Data</Breadcrumb.Item>
+      </Breadcrumb>
+    </Styles>
+  );
 }
 
 export default Main;
