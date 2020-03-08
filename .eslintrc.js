@@ -30,6 +30,6 @@ module.exports = {
       'warn',
       { extensions: ['.jsx', '.js'] }
     ],
-    'import/prefer-dafault-export': 'off'
+    'import/prefer-default-export': 'off'
   },
 };
