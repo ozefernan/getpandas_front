@@ -41,8 +41,8 @@ function Cadastro() {
               <div class="col-md-6">
 
                 <div class="form-group">
-                  <label for="phone">Oque ?</label>
-                  <input type="tel" class="form-control" id="phone" placeholder="" />
+                  <label for="file">Insira 3 Fotos</label>
+                  <input type="file" class="form-control" id="upload" placeholder="" />
                 </div>
               </div>
             </div>
