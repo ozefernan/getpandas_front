@@ -39,7 +39,9 @@ export const Styles = styled.div`
         }
       }
     }
-
+    input[type=checkbox], input[type=radio]{
+      margin-left:10px
+    }
     .actions {
       margin-top: 30px;
 

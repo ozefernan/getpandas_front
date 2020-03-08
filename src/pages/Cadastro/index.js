@@ -58,7 +58,7 @@ function Cadastro() {
             <div className="row">
               <div className="col-md-6">
                 <div className="form-group">
-                  <label htmlFor="file">Insira 3 Fotos</label>
+                  <label htmlFor="file">Insira 1 Foto</label>
                   <input
                     type="file"
                     className="form-control"
@@ -105,6 +105,7 @@ function Cadastro() {
                       type="radio"
                       name="contact-preference"
                       id="contact-preference"
+                      className="nao"
                       value="Nao"
                       checked
                     />
