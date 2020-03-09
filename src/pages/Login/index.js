@@ -7,6 +7,7 @@ import { FormGroup, Button } from 'react-bootstrap';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
+import { MdError } from 'react-icons/md';
 
 import api from '../../shared/api';
 import { login } from '../../shared/auth';
@@ -14,9 +15,7 @@ import { Styles } from './styles';
 import logo from '../../shared/images/logo2.png';
 
 const schema = Yup.object().shape({
-  // email: Yup.string()
-  //   .email('Insira um email válido')
-  //   .required('O email é obrigatório'),
+  username: Yup.string().required('O Username é obrigatório'),
   password: Yup.string().required('A senha é obrigatório'),
 });
 
@@ -47,10 +46,9 @@ class Login extends Component {
               pauseOnHover: true,
               draggable: true,
             });
+            document.getElementById('username').value = '';
             document.getElementById('password').value = '';
-            document.getElementById('password').focus();
-            document.getElementById('email').value = '';
-            document.getElementById('email').focus();
+            document.getElementById('username').focus();
           }
         })
 
@@ -58,6 +56,9 @@ class Login extends Component {
           toast.error(
             '🦄 Houve um problema com o login, verifique suas credenciais.'
           );
+          document.getElementById('username').value = '';
+          document.getElementById('password').value = '';
+          document.getElementById('username').focus();
         });
     }
   };
@@ -73,10 +74,10 @@ class Login extends Component {
             <Form className="form" schema={schema} onSubmit={this.handleSignIn}>
               <FormGroup>
                 <Input
-                  name="email"
-                  id="email"
+                  name="username"
+                  id="username"
                   type="text"
-                  placeholder="Email"
+                  placeholder="Username"
                   onChange={e => this.setState({ username: e.target.value })}
                 />
                 <Input

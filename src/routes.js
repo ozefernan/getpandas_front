@@ -1,8 +1,7 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-
-import PropTypes from 'prop-types';
 
 import { isAuthenticated } from './shared/auth';
 import Main from './pages/Main';
@@ -31,10 +30,5 @@ const Routes = () => (
     </Switch>
   </BrowserRouter>
 );
-
-PrivateRoute.propTypes = {
-  component: PropTypes.isRequired,
-  location: PropTypes.isRequired,
-};
 
 export default Routes;
