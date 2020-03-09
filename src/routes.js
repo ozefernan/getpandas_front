@@ -1,18 +1,40 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
+import PropTypes from 'prop-types';
+
+import { isAuthenticated } from './shared/auth';
 import Main from './pages/Main';
 import Login from './pages/Login';
 import Cadastro from './pages/Cadastro';
 
-export default function Routes() {
-  return (
-    <BrowserRouter>
-      <Switch>
-        <Route path="/" exact component={Main} />
-        <Route path="/login" component={Login} />
-        <Route path="/cadastro" component={Cadastro} />
-      </Switch>
-    </BrowserRouter>
-  );
-}
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      isAuthenticated() ? (
+        <Component {...props} />
+      ) : (
+          <Redirect to={{ pathname: '/', state: { from: props.location } }} />
+        )
+    }
+  />
+);
+
+const Routes = () => (
+  <BrowserRouter>
+    <Switch>
+      <Route path="/" exact component={Login} />
+      <PrivateRoute path="/Main" component={Main} />
+      <PrivateRoute path="/cadastro" component={Cadastro} />
+    </Switch>
+  </BrowserRouter>
+);
+
+PrivateRoute.propTypes = {
+  component: PropTypes.isRequired,
+  location: PropTypes.isRequired,
+};
+
+export default Routes;
