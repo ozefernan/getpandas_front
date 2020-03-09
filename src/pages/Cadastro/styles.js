@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 
 export const Styles = styled.div`
+  .link {
+    text-decoration: none;
+    color: #ffffff;
+  }
+
   form {
     background: #ffffff;
     border-radius: 4px;

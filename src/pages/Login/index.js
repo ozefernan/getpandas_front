@@ -6,17 +6,17 @@ import { withRouter } from 'react-router-dom';
 import { FormGroup, Button } from 'react-bootstrap';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
-// import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
-// import api from '../../shared/api';
-// import { login } from '../../shared/services/auth';
+import api from '../../shared/api';
+import { login } from '../../shared/auth';
 import { Styles } from './styles';
 import logo from '../../shared/images/logo2.png';
 
 const schema = Yup.object().shape({
-  email: Yup.string()
-    .email('Insira um email válido')
-    .required('O email é obrigatório'),
+  // email: Yup.string()
+  //   .email('Insira um email válido')
+  //   .required('O email é obrigatório'),
   password: Yup.string().required('A senha é obrigatório'),
 });
 
@@ -24,39 +24,43 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // email: '',
-      // password: '',
+      username: '',
+      password: '',
     };
   }
 
-  // handleSignIn = () => {
-  //   const { email, password } = this.state;
-  //   if (email || password) {
-  //     api
-  //       .post('/api/login', { email, password })
-  //       .then(response => {
-  //         if (response.data.authenticated) {
-  //           login(response.data.acessToken);
-  //           this.props.history.push('/admin');
-  //         } else {
-  //           toast.error(response.data.message, {
-  //             position: 'top-right',
-  //             hideProgressBar: false,
-  //             closeOnClick: true,
-  //             pauseOnHover: true,
-  //             draggable: true,
-  //           });
-  //           document.getElementById('password').value = '';
-  //           document.getElementById('password').focus();
-  //         }
-  //       })
-  //       .catch(() => {
-  //         toast.error(
-  //           'Houve um problema com o login, verifique suas credenciais.'
-  //         );
-  //       });
-  //   }
-  // };
+  handleSignIn = () => {
+    const { username, password } = this.state;
+    if (username || password) {
+      // console.log(`${username} - ${password} `);
+      api
+        .post('api-token-auth/', { username, password })
+        .then(response => {
+          if (response.data.token) {
+            login(response.data.token);
+            this.props.history.push('/main');
+          } else {
+            toast.error(response.data.message, {
+              position: 'top-right',
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+            });
+            document.getElementById('password').value = '';
+            document.getElementById('password').focus();
+            document.getElementById('email').value = '';
+            document.getElementById('email').focus();
+          }
+        })
+
+        .catch(() => {
+          toast.error(
+            '🦄 Houve um problema com o login, verifique suas credenciais.'
+          );
+        });
+    }
+  };
 
   render() {
     return (
@@ -71,16 +75,16 @@ class Login extends Component {
                 <Input
                   name="email"
                   id="email"
-                  type="email"
+                  type="text"
                   placeholder="Email"
-                // onChange={e => this.setState({ email: e.target.value })}
+                  onChange={e => this.setState({ username: e.target.value })}
                 />
                 <Input
                   name="password"
                   id="password"
                   type="password"
                   placeholder="Senha"
-                // onChange={e => this.setState({ password: e.target.value })}
+                  onChange={e => this.setState({ password: e.target.value })}
                 />
               </FormGroup>
               <div className="functions">
@@ -95,11 +99,7 @@ class Login extends Component {
                   ou
                   <hr />
                 </div>
-                <Button
-                  className="singup"
-                  variant
-                // onClick={this.handleSignIn}
-                >
+                <Button className="singup" variant onClick={this.handleSignIn}>
                   Cadastre-se
                 </Button>
               </div>

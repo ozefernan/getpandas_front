@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import slide1 from '../../shared/images/slide1.jpg';
+
 export const Styles = styled.div`
   .form-elegant .font-small {
     font-size: 0.8rem;
@@ -204,7 +206,8 @@ export const Styles = styled.div`
   .photo-main {
     border-radius: 6px 6px 0 0;
     background-color: #9be010;
-    background: radial-gradient(#e5f89e, #96e001);
+    background-image: url(${slide1});
+    background-position: center;
 
     .controls {
       display: flex;
@@ -312,6 +315,12 @@ export const Styles = styled.div`
     &:active {
       transform: scale(0.97);
     }
+  }
+
+  .stretch {
+    margin-left: 10px;
+    min-width: 100%;
+    min-height: 100%;
   }
 
   /* ----- Footer Section ----- */
