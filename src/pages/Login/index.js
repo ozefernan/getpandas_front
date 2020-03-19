@@ -7,10 +7,9 @@ import { FormGroup, Button } from 'react-bootstrap';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
-import { MdError } from 'react-icons/md';
 
-import api from '../../shared/api';
-import { login } from '../../shared/auth';
+// import api from '../../shared/api';
+// import { login } from '../../shared/auth';
 import { Styles } from './styles';
 import logo from '../../shared/images/logo2.png';
 
@@ -31,36 +30,42 @@ class Login extends Component {
   handleSignIn = () => {
     const { username, password } = this.state;
     if (username || password) {
-      // console.log(`${username} - ${password} `);
-      api
-        .post('api-token-auth/', { username, password })
-        .then(response => {
-          if (response.data.token) {
-            login(response.data.token);
-            this.props.history.push('/main');
-          } else {
-            toast.error(response.data.message, {
-              position: 'top-right',
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-            });
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-            document.getElementById('username').focus();
-          }
-        })
-
-        .catch(() => {
-          toast.error(
-            '🦄 Houve um problema com o login, verifique suas credenciais.'
-          );
-          document.getElementById('username').value = '';
-          document.getElementById('password').value = '';
-          document.getElementById('username').focus();
-        });
+      // api
+      //   .post('api-token-auth/', { username, password })
+      //   .then(response => {
+      //     if (response.data.token) {
+      // login(response.data.token);
+      this.props.history.push('/main');
+      toast.success('TESTE LOGIN OK!', {
+        position: 'top-right',
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    } else {
+      // toast.error(response.data.message, {
+      toast.error('TESTE LOGIN OK!', {
+        position: 'top-right',
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      document.getElementById('username').value = '';
+      document.getElementById('password').value = '';
+      document.getElementById('username').focus();
     }
+    // })
+    // .catch(() => {
+    //   toast.error(
+    //     '🦄 Houve um problema com o login, verifique suas credenciais.'
+    //   );
+    //   document.getElementById('username').value = '';
+    //   document.getElementById('password').value = '';
+    //   document.getElementById('username').focus();
+    // });
+    // }
   };
 
   render() {
@@ -89,7 +94,11 @@ class Login extends Component {
                 />
               </FormGroup>
               <div className="functions">
-                <Button className="button" type="submit">
+                <Button
+                  className="button"
+                  type="submit"
+                  onClick={this.handleSignIn}
+                >
                   Entrar
                 </Button>
                 <a className="forgot" href="/">
@@ -100,7 +109,7 @@ class Login extends Component {
                   ou
                   <hr />
                 </div>
-                <Button className="singup" variant onClick={this.handleSignIn}>
+                <Button className="singup" variant>
                   Cadastre-se
                 </Button>
               </div>

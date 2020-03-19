@@ -1,12 +1,22 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/no-unused-state */
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 
+import Container from '@material-ui/core/Container';
+/* Card */
+import GridList from '@material-ui/core/GridList';
+/**/
+
+import api from '../../shared/api';
 import { Styles } from './styles';
 import { getToken } from '../../shared/auth';
-import api from '../../shared/api';
-import Card from './card';
+
+import MenuAppBar from '../components/header';
+import SimplePaper from '../components/paper';
+import Card from '../components/card';
+import Search from '../components/search';
 
 class Main extends Component {
   constructor(props) {
@@ -38,14 +48,28 @@ class Main extends Component {
   };
 
   render() {
-    const { result } = this.state;
+    // const { result } = this.state;
 
     return (
       <Styles>
-        <div>
-          <nav className="navbar navbar-light shadow p-3 mb-5 bg-primary rounded">
-            <a className="nav-brand text-white">Pontos Turísticos</a>
-          </nav>
+        <MenuAppBar />
+        <div className="banner">
+          <div className="text-banner">
+            <p>Descubra os melhores</p>
+            <span>Pontos turisticos e as Atracoes</span>
+            <Search />
+          </div>
+        </div>
+        <SimplePaper />
+        <Container fixed>
+          <div>
+            <GridList cellHeight={180} style={{ justifyContent: 'center' }}>
+              <Card />
+            </GridList>
+          </div>
+        </Container>
+
+        {/* <div>
           <div className="container">
             <div className="row">
               <div className="col-md-10 col-lg-8 col-xl-5">
@@ -111,7 +135,7 @@ class Main extends Component {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </Styles>
     );
   }

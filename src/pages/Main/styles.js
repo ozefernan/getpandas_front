@@ -3,6 +3,30 @@ import styled from 'styled-components';
 import slide1 from '../../shared/images/slide1.jpg';
 
 export const Styles = styled.div`
+  scroll-behavior: smooth;
+
+  .banner {
+    .text-banner {
+      position: absolute;
+      top: 250px;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      color: #ffffff;
+      text-align: center;
+      font-family: 'Roboto';
+
+      p {
+        font-size: 13px;
+        margin: 0;
+      }
+
+      span {
+        font-size: 40px;
+      }
+    }
+  }
+
   .form-elegant .font-small {
     font-size: 0.8rem;
   }
