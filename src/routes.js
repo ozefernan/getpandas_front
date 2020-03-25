@@ -6,7 +6,6 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { isAuthenticated } from './shared/auth';
 import Main from './pages/Main';
 import Login from './pages/Login';
-import Cadastro from './pages/Cadastro';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -28,7 +27,6 @@ const Routes = () => (
 
       {/* TESTE */}
       <Route path="/main" component={Main} />
-      <Route path="/cadastro" component={Cadastro} />
 
       {/* PRODUCAO */}
       {/* <PrivateRoute path="/main" component={Main} />

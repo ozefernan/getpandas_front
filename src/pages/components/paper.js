@@ -5,14 +5,11 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 
-import AddBoxIcon from '@material-ui/icons/AddBox';
-import ListIcon from '@material-ui/icons/List';
-
 const useStyles = makeStyles(theme => ({
   root: {
     position: 'sticky',
     top: '0',
-    zIndex: '9999',
+    zIndex: '999',
   },
 
   listPaper: {

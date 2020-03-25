@@ -5,7 +5,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
 import banner3 from '../../shared/images/banner3.jpg';
@@ -18,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2),
   },
   toolbar: {
-    minHeight: 500,
+    minHeight: 150,
     alignItems: 'flex-start',
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(2),
