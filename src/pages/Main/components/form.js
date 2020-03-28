@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { uniqueId } from 'lodash';
-import filesize from 'filesize';
+// import { uniqueId } from 'lodash';
+// import filesize from 'filesize';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Rating from '@material-ui/lab/Rating';
@@ -11,11 +11,12 @@ import Grid from '@material-ui/core/Grid';
 import { FormGroup, Button } from 'react-bootstrap';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 import FileList from './FileList';
 import Upload from './Upload';
-// import { toast } from 'react-toastify';
 
 import api from '../../../shared/api';
+import { login, getToken } from '../../../shared/auth';
 
 import { Styles } from './stylesForm';
 import { Container, Content } from '../styles';
@@ -27,136 +28,124 @@ const schema = Yup.object().shape({
 });
 
 class BasicTextFields extends Component {
-  state = {
-    aprovado: true,
-    nome: '',
-    endereco: '',
-    stars: 0,
-    descricao: '',
-    uploadedFiles: [],
-  };
-
-  handleUpload = files => {
-    const uploadedFiles = files.map(file => ({
-      file,
-      id: uniqueId(),
-      name: file.name,
-      readableSize: filesize(file.size),
-      preview: URL.createObjectURL(file),
-      progress: 0,
-      uploaded: false,
-      error: false,
-      url: null,
-    }));
-
-    this.setState({
-      uploadedFiles: this.state.uploadedFiles.concat(uploadedFiles),
-    });
-
-    uploadedFiles.forEach(this.processUpload);
-  };
-
-  updateFile = (id, data) => {
-    this.setState({
-      uploadedFiles: this.state.uploadedFiles.map(uploadedFile => {
-        return id === uploadedFile.id
-          ? { ...uploadedFile, ...data }
-          : uploadedFile;
-      }),
-    });
-  };
-
-  handleDelete = async id => {
-    await api.delete(`posts/${id}`);
-
-    this.setState({
-      uploadedFiles: this.state.uploadedFiles.filter(file => file.id !== id),
-    });
-  };
-
-  componentWillUnmount() {
-    this.state.uploadedFiles.forEach(file => URL.revokeObjectURL(file.preview));
+  constructor(props) {
+    super(props);
+    this.state = {
+      nome: '',
+      descricao: '',
+      aprovado: true,
+      endereco: '',
+      stars: 0,
+      uploadedFiles: [],
+    };
   }
 
-  processUpload = uploadedFile => {
-    const data = new FormData();
+  // handleUpload = files => {
+  //   const uploadedFiles = files.map(file => ({
+  //     file,
+  //     id: uniqueId(),
+  //     name: file.name,
+  //     readableSize: filesize(file.size),
+  //     preview: URL.createObjectURL(file),
+  //     progress: 0,
+  //     uploaded: false,
+  //     error: false,
+  //     url: null,
+  //   }));
 
-    data.append('file', uploadedFile.file, uploadedFile.name);
+  //   this.setState({
+  //     uploadedFiles: this.state.uploadedFiles.concat(uploadedFiles),
+  //   });
 
-    api
-      .post('posts', data, {
-        onUploadProgress: e => {
-          const progress = parseInt(Math.round((e.loaded * 100) / e.total));
+  //   uploadedFiles.forEach(this.processUpload);
+  // };
 
-          this.updateFile(uploadedFile.id, {
-            progress,
-          });
-        },
-      })
-      .then(response => {
-        this.updateFile(uploadedFile.id, {
-          uploaded: true,
-          id: response.data._id,
-          url: response.data.url,
-        });
-      })
-      .catch(() => {
-        this.updateFile(uploadedFile.id, {
-          error: true,
-        });
-      });
-  };
+  // updateFile = (id, data) => {
+  //   this.setState({
+  //     uploadedFiles: this.state.uploadedFiles.map(uploadedFile => {
+  //       return id === uploadedFile.id
+  //         ? { ...uploadedFile, ...data }
+  //         : uploadedFile;
+  //     }),
+  //   });
+  // };
 
-  handleChange = event => {
-    this.setState({
-      ...this.aprovado,
-      [event.target.name]: event.target.checked,
-    });
-  };
+  // handleDelete = async id => {
+  //   await api.delete(`posts/${id}`);
+
+  //   this.setState({
+  //     uploadedFiles: this.state.uploadedFiles.filter(file => file.id !== id),
+  //   });
+  // };
+
+  // componentWillUnmount() {
+  //   this.state.uploadedFiles.forEach(file => URL.revokeObjectURL(file.preview));
+  // }
+
+  // processUpload = uploadedFile => {
+  //   const data = new FormData();
+
+  //   data.append('file', uploadedFile.file, uploadedFile.name);
+
+  //   api
+  //     .post('posts', data, {
+  //       onUploadProgress: e => {
+  //         const progress = parseInt(Math.round((e.loaded * 100) / e.total));
+
+  //         this.updateFile(uploadedFile.id, {
+  //           progress,
+  //         });
+  //       },
+  //     })
+  //     .then(response => {
+  //       this.updateFile(uploadedFile.id, {
+  //         uploaded: true,
+  //         id: response.data._id,
+  //         url: response.data.url,
+  //       });
+  //     })
+  //     .catch(() => {
+  //       this.updateFile(uploadedFile.id, {
+  //         error: true,
+  //       });
+  //     });
+  // };
+
+  // handleChange = event => {
+  //   this.setState({
+  //     ...this.aprovado,
+  //     [event.target.name]: event.target.checked,
+  //   });
+  // };
 
   handleSave = () => {
     const { nome, endereco, aprovado, stars, descricao } = this.state;
-    console.log(
-      `Teste: ${nome}, ${endereco}, ${aprovado}, ${stars}, ${descricao}`
-    );
-    // const { username, password } = this.state;
-    // if (username || password) {
-    //   // api
-    //   //   .post('api-token-auth/', { username, password })
-    //   //   .then(response => {
-    //   //     if (response.data.token) {
-    //   // login(response.data.token);
-    //   this.props.history.push('/main');
-    //   toast.success('TESTE LOGIN OK!', {
-    //     position: 'top-right',
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //   });
-    // } else {
-    //   // toast.error(response.data.message, {
-    //   toast.error('TESTE LOGIN OK!', {
-    //     position: 'top-right',
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //   });
-    //   document.getElementById('username').value = '';
-    //   document.getElementById('password').value = '';
-    //   document.getElementById('username').focus();
-    // }
-    // // })
-    // // .catch(() => {
-    // //   toast.error(
-    // //     '🦄 Houve um problema com o login, verifique suas credenciais.'
-    // //   );
-    // //   document.getElementById('username').value = '';
-    // //   document.getElementById('password').value = '';
-    // //   document.getElementById('username').focus();
-    // // });
-    // // }
+
+    if (nome || endereco || aprovado || stars || descricao) {
+      api
+        .post('pontoturistico/', { nome, endereco, aprovado, stars, descricao },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Token ${getToken()}`,
+            },
+          })
+        .then(response => {
+          toast.success('Ponto turistico adicionado', {
+            position: 'top-center ',
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
+        })
+        .catch(response => {
+          console.log("Catch")
+        });
+    }
   };
 
   render() {

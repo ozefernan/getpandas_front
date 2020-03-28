@@ -48,7 +48,7 @@ class Main extends Component {
   };
 
   render() {
-    // const { result } = this.state;
+    const { result } = this.state;
 
     return (
       <Styles>
@@ -60,7 +60,7 @@ class Main extends Component {
         <Container fixed>
           <div>
             <GridList cellHeight={180} style={{ justifyContent: 'center' }}>
-              <Card />
+              {result && result.map(reg => <Card key="" register={reg} />)}
             </GridList>
           </div>
         </Container>

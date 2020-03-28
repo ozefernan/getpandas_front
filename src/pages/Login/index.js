@@ -37,16 +37,14 @@ class Login extends Component {
             login(response.data.token);
             this.props.history.push('/main');
             toast.info('🚀 Seja bem-vindo!', {
-              position: 'top-right',
-              hideProgressBar: false,
+              position: 'top',
+              hideProgressBar: true,
               closeOnClick: true,
               pauseOnHover: true,
               draggable: true,
-              className: 'toastLogin',
             });
           } else {
-            toast.error(`🚀 ${response.data.message}`, {
-              // toast.error('TESTE LOGIN OK!', {
+            toast.error(`🦄 ${response.data.message}`, {
               position: 'top-right',
               hideProgressBar: false,
               closeOnClick: true,
@@ -98,7 +96,6 @@ class Login extends Component {
                 <Button
                   className="button"
                   type="submit"
-                  onClick={this.handleSignIn}
                 >
                   Entrar
                 </Button>

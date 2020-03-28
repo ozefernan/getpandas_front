@@ -26,11 +26,10 @@ const Routes = () => (
       <Route path="/" exact component={Login} />
 
       {/* TESTE */}
-      <Route path="/main" component={Main} />
+      {/* <Route path="/main" component={Main} /> */}
 
       {/* PRODUCAO */}
-      {/* <PrivateRoute path="/main" component={Main} />
-      <PrivateRoute path="/cadastro" component={Cadastro} /> */}
+      <PrivateRoute path="/main" component={Main} />
     </Switch>
   </BrowserRouter>
 );
