@@ -7,7 +7,7 @@ import { getToken } from './auth';
 // });
 
 const api = axios.create({
-  baseURL: 'http://35.175.232.136/',
+  baseURL: 'http://34.226.249.190/',
 });
 
 api.interceptors.request.use(async config => {

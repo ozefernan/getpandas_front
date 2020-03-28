@@ -6,6 +6,10 @@ import slide3 from '../../shared/images/slide3.jpg';
 import slide4 from '../../shared/images/slide4.jpg';
 
 export const Styles = styled.div`
+  .toastLogin {
+    background: #7159c1;
+  }
+
   .s-login {
     display: flex;
     flex-direction: row;

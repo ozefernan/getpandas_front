@@ -8,8 +8,8 @@ import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
-// import api from '../../shared/api';
-// import { login } from '../../shared/auth';
+import api from '../../shared/api';
+import { login } from '../../shared/auth';
 import { Styles } from './styles';
 import logo from '../../shared/images/logo2.png';
 
@@ -30,42 +30,43 @@ class Login extends Component {
   handleSignIn = () => {
     const { username, password } = this.state;
     if (username || password) {
-      // api
-      //   .post('api-token-auth/', { username, password })
-      //   .then(response => {
-      //     if (response.data.token) {
-      // login(response.data.token);
-      this.props.history.push('/main');
-      toast.success('TESTE LOGIN OK!', {
-        position: 'top-right',
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-    } else {
-      // toast.error(response.data.message, {
-      toast.error('TESTE LOGIN OK!', {
-        position: 'top-right',
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-      document.getElementById('username').value = '';
-      document.getElementById('password').value = '';
-      document.getElementById('username').focus();
+      api
+        .post('api-token-auth/', { username, password })
+        .then(response => {
+          if (response.data.token) {
+            login(response.data.token);
+            this.props.history.push('/main');
+            toast.info('🚀 Seja bem-vindo!', {
+              position: 'top-right',
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              className: 'toastLogin',
+            });
+          } else {
+            toast.error(`🚀 ${response.data.message}`, {
+              // toast.error('TESTE LOGIN OK!', {
+              position: 'top-right',
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+            });
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('username').focus();
+          }
+        })
+        .catch(() => {
+          toast.error(
+            '🦄 Houve um problema com o login, verifique suas credenciais.'
+          );
+          document.getElementById('username').value = '';
+          document.getElementById('password').value = '';
+          document.getElementById('username').focus();
+        });
     }
-    // })
-    // .catch(() => {
-    //   toast.error(
-    //     '🦄 Houve um problema com o login, verifique suas credenciais.'
-    //   );
-    //   document.getElementById('username').value = '';
-    //   document.getElementById('password').value = '';
-    //   document.getElementById('username').focus();
-    // });
-    // }
   };
 
   render() {

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { uniqueId } from 'lodash';
+import filesize from 'filesize';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Rating from '@material-ui/lab/Rating';
@@ -9,9 +11,14 @@ import Grid from '@material-ui/core/Grid';
 import { FormGroup, Button } from 'react-bootstrap';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
+import FileList from './FileList';
+import Upload from './Upload';
 // import { toast } from 'react-toastify';
 
+import api from '../../../shared/api';
+
 import { Styles } from './stylesForm';
+import { Container, Content } from '../styles';
 
 const schema = Yup.object().shape({
   nome: Yup.string().required('O Username é obrigatório'),
@@ -20,16 +27,85 @@ const schema = Yup.object().shape({
 });
 
 class BasicTextFields extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      aprovado: true,
-      nome: '',
-      endereco: '',
-      stars: 0,
-      descricao: '',
-    };
+  state = {
+    aprovado: true,
+    nome: '',
+    endereco: '',
+    stars: 0,
+    descricao: '',
+    uploadedFiles: [],
+  };
+
+  handleUpload = files => {
+    const uploadedFiles = files.map(file => ({
+      file,
+      id: uniqueId(),
+      name: file.name,
+      readableSize: filesize(file.size),
+      preview: URL.createObjectURL(file),
+      progress: 0,
+      uploaded: false,
+      error: false,
+      url: null,
+    }));
+
+    this.setState({
+      uploadedFiles: this.state.uploadedFiles.concat(uploadedFiles),
+    });
+
+    uploadedFiles.forEach(this.processUpload);
+  };
+
+  updateFile = (id, data) => {
+    this.setState({
+      uploadedFiles: this.state.uploadedFiles.map(uploadedFile => {
+        return id === uploadedFile.id
+          ? { ...uploadedFile, ...data }
+          : uploadedFile;
+      }),
+    });
+  };
+
+  handleDelete = async id => {
+    await api.delete(`posts/${id}`);
+
+    this.setState({
+      uploadedFiles: this.state.uploadedFiles.filter(file => file.id !== id),
+    });
+  };
+
+  componentWillUnmount() {
+    this.state.uploadedFiles.forEach(file => URL.revokeObjectURL(file.preview));
   }
+
+  processUpload = uploadedFile => {
+    const data = new FormData();
+
+    data.append('file', uploadedFile.file, uploadedFile.name);
+
+    api
+      .post('posts', data, {
+        onUploadProgress: e => {
+          const progress = parseInt(Math.round((e.loaded * 100) / e.total));
+
+          this.updateFile(uploadedFile.id, {
+            progress,
+          });
+        },
+      })
+      .then(response => {
+        this.updateFile(uploadedFile.id, {
+          uploaded: true,
+          id: response.data._id,
+          url: response.data.url,
+        });
+      })
+      .catch(() => {
+        this.updateFile(uploadedFile.id, {
+          error: true,
+        });
+      });
+  };
 
   handleChange = event => {
     this.setState({
@@ -84,7 +160,7 @@ class BasicTextFields extends Component {
   };
 
   render() {
-    const { aprovado } = this.state;
+    const { aprovado, uploadedFiles } = this.state;
 
     return (
       <Styles>
@@ -167,6 +243,14 @@ class BasicTextFields extends Component {
             </Grid> */}
             </Grid>
           </FormGroup>
+          <Container>
+            <Content>
+              <Upload onUpload={this.handleUpload} />
+              {!!uploadedFiles.length && (
+                <FileList files={uploadedFiles} onDelete={this.handleDelete} />
+              )}
+            </Content>
+          </Container>
           <Button className="submitButton" variant onClick={this.handleSave}>
             SALVAR
           </Button>

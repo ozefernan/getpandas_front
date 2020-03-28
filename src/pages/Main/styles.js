@@ -2,6 +2,22 @@ import styled from 'styled-components';
 
 import slide1 from '../../shared/images/slide1.jpg';
 
+export const Container = styled.div`
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Content = styled.div`
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
+  background: #fff;
+  border-radius: 4px;
+  padding: 20px;
+`;
+
 export const Styles = styled.div`
   scroll-behavior: smooth;
 
