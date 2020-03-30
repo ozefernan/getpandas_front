@@ -48,6 +48,7 @@ export const Styles = styled.div`
     height: 60px;
     font-family: Roboto;
     border-radius: 5px;
+    border: 0;
     background-color: #4a26fd;
     color: #ffffff;
     transition: 1s;

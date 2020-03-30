@@ -111,19 +111,21 @@ class BasicTextFields extends Component {
   //     });
   // };
 
-  // handleChange = event => {
-  //   this.setState({
-  //     ...this.aprovado,
-  //     [event.target.name]: event.target.checked,
-  //   });
-  // };
+  handleChange = event => {
+    this.setState({
+      ...this.aprovado,
+      [event.target.name]: event.target.checked,
+    });
+  };
 
   handleSave = () => {
     const { nome, endereco, aprovado, stars, descricao } = this.state;
 
+    console.log(`${nome}`)
+
     if (nome || endereco || aprovado || stars || descricao) {
       api
-        .post('pontoturistico/', { nome, endereco, aprovado, stars, descricao },
+        .post('pontoturistico/', { nome, descricao, endereco },
           {
             headers: {
               'Content-Type': 'application/json',
@@ -153,7 +155,7 @@ class BasicTextFields extends Component {
 
     return (
       <Styles>
-        <Form className="form" schema={schema} onSubmit={this.handleSave}>
+        <Form className="form" schema={schema}>
           <FormGroup>
             <Grid container spacing={3}>
               <Grid item xs={12}>
@@ -240,7 +242,7 @@ class BasicTextFields extends Component {
               )}
             </Content>
           </Container>
-          <Button className="submitButton" variant onClick={this.handleSave}>
+          <Button className="submitButton" type="submit" onClick={this.handleSave}>
             SALVAR
           </Button>
         </Form>

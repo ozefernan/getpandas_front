@@ -4,8 +4,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import MoreIcon from '@material-ui/icons/MoreVert';
+
+import { logout } from '../../shared/auth';
 
 import banner3 from '../../shared/images/banner3.jpg';
 
@@ -36,6 +40,22 @@ const useStyles = makeStyles(theme => ({
 export default function ProminentAppBar() {
   const classes = useStyles();
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+    logout();
+    window.location.reload();
+  };
+
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -55,11 +75,21 @@ export default function ProminentAppBar() {
             aria-label="display more actions"
             edge="end"
             color="inherit"
+            onClick={handleClick}
           >
             <MoreIcon />
           </IconButton>
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleClose}>Sair</MenuItem>
+          </Menu>
         </Toolbar>
       </AppBar>
-    </div>
+    </div >
   );
 }

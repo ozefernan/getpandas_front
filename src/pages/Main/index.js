@@ -27,19 +27,19 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    console.log('DidMount');
     api
-      .get(
-        `pontoturistico/`,
-        {
-          headers: {
-            Authorization: `Token ${getToken()}`,
-          },
+      .get('pontoturistico/', {
+        headers: {
+          Authorization: `token ${getToken()}`
         },
-        {}
-      )
-      .then(response => this.updateResult(response.data));
-  }
+      })
+      .then(response => {
+        this.updateResult(response.data)
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   updateResult = data => {
     this.setState({

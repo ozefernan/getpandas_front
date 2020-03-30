@@ -37,14 +37,14 @@ class Login extends Component {
             login(response.data.token);
             this.props.history.push('/main');
             toast.info('🚀 Seja bem-vindo!', {
-              position: 'top',
-              hideProgressBar: true,
+              position: 'top-center',
+              hideProgressBar: false,
               closeOnClick: true,
               pauseOnHover: true,
               draggable: true,
             });
           } else {
-            toast.error(`🦄 ${response.data.message}`, {
+            toast.error(`🦄 Username ou senha invalido! Favor verficar as credenciais.`, {
               position: 'top-right',
               hideProgressBar: false,
               closeOnClick: true,
