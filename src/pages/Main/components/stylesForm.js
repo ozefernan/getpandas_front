@@ -3,17 +3,17 @@ import styled from 'styled-components';
 export const Styles = styled.div`
   .form {
     flex-grow: 1;
-    margin: 10px;
+    margin: 15px;
   }
-
   .textField {
     color: #333;
     width: 100%;
   }
 
   .input {
-    height: 50px;
+    height: 38px;
     padding: 10px;
+    margin: 0;
     color: #000;
     background-color: #ffffff;
     font-size: 15px;
@@ -58,4 +58,5 @@ export const Styles = styled.div`
       transition: 1s;
     }
   }
+
 `;

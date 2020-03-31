@@ -36,11 +36,11 @@ class Login extends Component {
           if (response.data.token) {
             login(response.data.token);
             this.props.history.push('/main');
-            toast.info('🚀 Seja bem-vindo!', {
+            toast.success('🚀 Seja Bem-vindo!', {
               position: 'top-center',
               hideProgressBar: false,
               closeOnClick: true,
-              pauseOnHover: true,
+              pauseOnHover: false,
               draggable: true,
             });
           } else {

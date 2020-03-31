@@ -90,8 +90,8 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#eee',
     border: '1px solid #555',
     boxShadow: theme.shadows[5],
-
     outline: 'none !important',
+    padding: theme.spacing(2, 4, 3),
   },
 }));
 

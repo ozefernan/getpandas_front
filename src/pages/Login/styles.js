@@ -20,10 +20,10 @@ export const Styles = styled.div`
     display: flex;
     flex: 2;
     background: #3c3c3c;
+    height: 100vh;
 
     .wrapper {
       position: relative;
-      height: 100vh;
       width: 100%;
       overflow: hidden;
     }
@@ -344,6 +344,7 @@ export const Styles = styled.div`
   .page-right {
     width: 500px;
     min-height: 100vh;
+    height: 100vh;
 
     background: #ffffff;
 
@@ -403,7 +404,6 @@ export const Styles = styled.div`
       width: 400px;
       background: transparent;
       padding: 15px 15px 15px 15px;
-      margin-top: 40px;
 
       display: flex;
       flex-direction: column;
@@ -520,8 +520,8 @@ export const Styles = styled.div`
 
     .footer {
       font-size: 12px;
-      margin-bottom: 20px;
       text-align: center;
+      margin-bottom: 5px;
       max-width: 80%;
 
       flex: 1;

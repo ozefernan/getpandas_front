@@ -16,6 +16,7 @@ import { getToken } from '../../shared/auth';
 import MenuAppBar from '../components/header';
 import SimplePaper from '../components/paper';
 import Card from '../components/card';
+// import Card from './components/Card';
 import ToolsPaper from './components/toolsPaper';
 
 class Main extends Component {
@@ -28,13 +29,9 @@ class Main extends Component {
 
   componentDidMount() {
     api
-      .get('pontoturistico/', {
-        headers: {
-          Authorization: `token ${getToken()}`
-        },
-      })
+      .get('pontoturistico/')
       .then(response => {
-        this.updateResult(response.data)
+        this.updateResult(response.data.results)
       })
       .catch(error => {
         console.log(error);

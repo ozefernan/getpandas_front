@@ -23,7 +23,12 @@ import Fade from '@material-ui/core/Fade';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
+import { toast } from 'react-toastify';
+
+import Form from '../Main/components/form'
+
 import teste from '../../shared/images/slide3.jpg';
+import api from '../../shared/api';
 
 const useStyles = makeStyles(theme => ({
   cards: {
@@ -69,6 +74,8 @@ const useStyles = makeStyles(theme => ({
   editIcon: {
     backgroundColor: '#3c8500',
     color: '#ffffff',
+    boxShadow: 'none',
+    outline: 'none !important',
 
     '&:hover': {
       backgroundColor: '#046400',
@@ -82,11 +89,14 @@ const useStyles = makeStyles(theme => ({
   pos: {
     marginBottom: 12,
     margiTop: 0,
+
   },
 
   buttonAtractions: {
     width: '35%',
     marginRight: '10px',
+    boxShadow: 'none',
+    outline: 'none !important',
   },
   /* MODAL */
   modal: {
@@ -95,14 +105,18 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
   },
   paper: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: '#eee',
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
 
-  h2: {
-    textAlign: 'center',
+  descr: {
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    lineHeight: '16px',
+    maxHeight: '32px',
   },
 
   btn: {
@@ -117,12 +131,19 @@ const useStyles = makeStyles(theme => ({
       color: '#ffffff',
     },
   },
+
+  noShadow: {
+    boxShadow: 'none',
+    outline: 'none !important'
+  }
 }));
 
 export default function RecipeReviewCard(props) {
-  const { result } = props;
+  const { register } = props;
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -132,19 +153,51 @@ export default function RecipeReviewCard(props) {
     setOpen(false);
   };
 
+  const handleOpen2 = () => {
+    setOpen2(true);
+  };
+
+  const handleClose2 = () => {
+    setOpen2(false);
+  };
+
+  // const deleteCard = id => {
+  //   api.delete(`pontoturistico/${id}`)
+  //     .then(response => {
+  //       console.log(response)
+  //     })
+  // };
+
   return (
     <>
       <Card className={classes.cards}>
         <CardMedia className={classes.media} image={teste} title="Paella dish">
+
           <Fab
             size="medium"
             className={classes.editIcon}
             aria-label="edit"
-            style={{ position: 'relative', bottom: '297px', left: '325px' }}
+            style={{ position: 'relative', top: '10px', left: '310px' }}
           >
-            <Link to="/cadastro" className={classes.link}>
-              <EditIcon />
-            </Link>
+            <EditIcon onClick={handleOpen2} />
+            <Modal
+              aria-labelledby="transition-modal-title"
+              aria-describedby="transition-modal-description"
+              className={classes.modal}
+              open={open2}
+              onClose={handleClose2}
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
+              }}
+            >
+              <Fade in={open2}>
+                <div className={classes.paper}>
+                  <Form alter register={register} />
+                </div>
+              </Fade>
+            </Modal>
           </Fab>
         </CardMedia>
         <CardContent>
@@ -154,7 +207,7 @@ export default function RecipeReviewCard(props) {
             variant="h5"
             component="h2"
           >
-            Rio de Janeiro
+            {register.nome}
           </Typography>
 
           <Typography className={classes.pos} color="textSecondary">
@@ -162,25 +215,24 @@ export default function RecipeReviewCard(props) {
           </Typography>
 
           <Typography
+            className={classes.descr}
             variant="body2"
             component="p"
             align="center"
             classKey="button"
           >
-            This impressive paella is a perfect party dish and a fun meal to
-            cook together with your guests. Add 1 cup of frozen peas along with
-            the mussels, if you like.
+            {register.descricao}
           </Typography>
         </CardContent>
 
         <CardActions disableSpacing>
-          <Tooltip title="Adicionar aos favoritos">
-            <IconButton aria-label="add to favorites">
+          <Tooltip className={classes.noShadow} title="Adicionar aos favoritos" >
+            <IconButton aria-label="add to favorites" >
               <FavoriteIcon />
             </IconButton>
           </Tooltip>
           <Tooltip title="Delete">
-            <IconButton aria-label="delete" type="button" onClick={handleOpen}>
+            <IconButton className={classes.noShadow} aria-label="delete" type="button" onClick={handleOpen}>
               <DeleteIcon />
             </IconButton>
           </Tooltip>
@@ -205,6 +257,22 @@ export default function RecipeReviewCard(props) {
                   className={classes.btn}
                   variant="contained"
                   color="primary"
+                  onClick={e => {
+                    api.delete(`pontoturistico/${register.id}`)
+                      .then(response => {
+                        toast.success('🚀 Ponto Turistico deletado', {
+                          position: 'top-center',
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          autoClose: 3000
+                        });
+                        setTimeout(() => {
+                          window.location.reload();
+                        }, 3000);
+                      })
+                  }}
                 >
                   Confirmar
                 </Button>
@@ -226,7 +294,7 @@ export default function RecipeReviewCard(props) {
             size="medium"
             color="secondary"
           >
-            3 Atracoes
+            {register.atracoes.length} Atracoes
           </Button>
 
           <Box
@@ -235,7 +303,7 @@ export default function RecipeReviewCard(props) {
             borderColor="transparent"
             className={classes.stars}
           >
-            <Rating name="read-only" value={1} readOnly />
+            <Rating name="read-only" value={4} readOnly />
           </Box>
         </CardActions>
       </Card>

@@ -48,12 +48,11 @@ export default function ProminentAppBar() {
 
   const handleClose = () => {
     setAnchorEl(null);
-    logout();
-    window.location.reload();
   };
 
   const handleLogout = () => {
     logout();
+    window.location.reload();
   };
 
   return (
@@ -86,7 +85,7 @@ export default function ProminentAppBar() {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>Sair</MenuItem>
+            <MenuItem onClick={handleLogout}>Sair</MenuItem>
           </Menu>
         </Toolbar>
       </AppBar>

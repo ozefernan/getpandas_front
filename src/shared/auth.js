@@ -1,4 +1,4 @@
-export const TOKEN_KEY = '@Token_GetPandas';
+export const TOKEN_KEY = '@GetPandas';
 
 export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
